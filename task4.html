@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // The actual Pizza definition is hidden (private to the module)
+        class Pizza {
+            #size;
+            #crust;
+            #toppings = [];
+
+            constructor(size, crust) {
+                this.#size = size;
+                this.#crust = crust;
+            }
+
+            addTopping(topping) {
+                this.#toppings.push(topping);
+            }
+
+            describe() {
+                return `A ${this.#size} pizza with ${this.#crust} crust and: ${this.#toppings.join(', ') || 'no toppings'}.`;
+            }
+        }
+
+        // The PizzaBuilder is the only thing the customer sees
+        class PizzaBuilder {
+            #pizza;
+
+            constructor(size = "Medium") {
+                // The builder handles the "hidden" Pizza instantiation
+                this.#pizza = new Pizza(size, "Classic");
+            }
+
+            setCrust(type) {
+                // We could add logic here to validate crust types
+                this.#pizza = new Pizza(this.#pizza.size, type);
+                return this; // Return 'this' for method chaining
+            }
+
+            withCheese() {
+                this.#pizza.addTopping("Extra Cheese");
+                return this;
+            }
+
+            withPepperoni() {
+                this.#pizza.addTopping("Pepperoni");
+                return this;
+            }
+
+            withMushrooms() {
+                this.#pizza.addTopping("Mushrooms");
+                return this;
+            }
+
+            // Final step: The customer gets the finished product
+            build() {
+                const finalPizza = this.#pizza;
+                console.log("Pizza is ready!");
+                return finalPizza.describe();
+            }
+        }
+
+        // --- Customer Usage ---
+
+        const myOrder = new PizzaBuilder("Large")
+            .withCheese()
+            .withPepperoni()
+            .withMushrooms()
+            .build();
+
+        console.log(myOrder);
+        // Output: A Large pizza with Classic crust and: Extra Cheese, Pepperoni, Mushrooms.
+    </script>
+</body>
+
+</html>
