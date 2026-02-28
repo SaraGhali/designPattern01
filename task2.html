@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        class InstanceCounter {
+            // Static property to hold the single instance
+            static #instance = null;
+            #count = 0;
+
+            constructor() {
+                if (InstanceCounter.#instance) {
+                    return InstanceCounter.#instance;
+                }
+                InstanceCounter.#instance = this;
+            }
+
+            increment() {
+                this.#count++;
+            }
+
+            decrement() {
+                this.#count--;
+            }
+
+            getCount() {
+                return this.#count;
+            }
+        }
+
+        // Ensure the instance is "frozen" so it cannot be modified externally
+        const singletonCounter = new InstanceCounter();
+        Object.freeze(singletonCounter);
+        class User {
+            constructor(name) {
+                this.name = name;
+                singletonCounter.increment();
+                console.log(`User created. Total active: ${singletonCounter.getCount()}`);
+            }
+
+            logout() {
+                singletonCounter.decrement();
+                console.log(`User logged out. Total active: ${singletonCounter.getCount()}`);
+            }
+        }
+
+        const user1 = new User("Sara"); 
+        const user2 = new User("Adam");   
+        user1.logout();
+    </script>
+</body>
+
+</html>l
