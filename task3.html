@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        class Document {
+            constructor(header, footer, pages, text) {
+                this.header = header;
+                this.footer = footer;
+                this.pages = pages;
+                this.text = text;
+            }
+
+            // The Clone Method
+            clone() {
+                // Create a new instance using the current object's properties
+                return new Document(
+                    this.header,
+                    this.footer,
+                    this.pages,
+                    this.text
+                );
+            }
+
+            describe() {
+                console.log(`Document: "${this.header}" | Pages: ${this.pages} | Content: "${this.text.substring(0, 20)}..."`);
+            }
+        }
+
+        // 1. Create the "Template" (The Prototype)
+        const legalTemplate = new Document(
+            "ITI Design Pattern Course",
+            "Page Footer - Confidential",
+            1,
+            "This is the base text."
+        );
+
+        // 2. Clone the template to create a new Document
+        const contractA = legalTemplate.clone();
+        contractA.text = "This is a specific contract for Student A."; // Modify the clone
+
+        // 3. Clone again for another Document
+        const contractB = legalTemplate.clone();
+        contractB.text = "This is a specific contract for Student B.";
+        contractB.pages = 5; // Change a specific property
+
+        // --- Verification ---
+        legalTemplate.describe();
+        contractA.describe();
+        contractB.describe();
+
+        console.log(`Are they the same object? ${contractA === legalTemplate}`); // false
+    </script>
+</body>
+
+</html>
