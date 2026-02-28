@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //we define the classes for the different types of students
+        class RegularStudent {
+            constructor(name) {
+                this.name = name;
+                this.type = 'Regular';
+                this.tuition = 5000;
+            }
+        }
+
+        class ScholarshipStudent {
+            constructor(name) {
+                this.name = name;
+                this.type = 'Scholarship';
+                this.tuition = 0; // Fully funded
+            }
+        }
+
+        class PartTimeStudent {
+            constructor(name) {
+                this.name = name;
+                this.type = 'Part-Time';
+                this.tuition = 2500;
+            }
+        }
+        class StudentFactory {
+            static createStudent(name, type) {
+                switch (type.toLowerCase()) {
+                    case 'regular':
+                        return new RegularStudent(name);
+                    case 'scholarship':
+                        return new ScholarshipStudent(name);
+                    case 'part-time':
+                        return new PartTimeStudent(name);
+                    default:
+                        throw new Error("Student type not recognized.");
+                }
+            }
+        }
+        // The "Main" logic
+        const students = [];
+
+        try {
+            students.push(StudentFactory.createStudent("Alice", "regular"));
+            students.push(StudentFactory.createStudent("Bob", "scholarship"));
+            students.push(StudentFactory.createStudent("Charlie", "part-time"));
+
+            students.forEach(s => {
+                console.log(`${s.name} is a ${s.type} student. Tuition: $${s.tuition}`);
+            });
+        } catch (error) {
+            console.error(error.message);
+        }
+    </script>
+</body>
+
+</html>
